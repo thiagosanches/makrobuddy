@@ -3,3 +3,14 @@
 This Git repository provides step-by-step instructions and code samples for building a simple macropad using the Raspberry Pi Pico microcontroller board. A macropad is a programmable keypad with customizable buttons that can be used to automate tasks, streamline workflows, or enhance productivity.
 
 The Raspberry Pi Pico is a powerful yet affordable microcontroller board that offers a wide range of possibilities for DIY projects. By following the instructions in this repository, you'll be able to create your own macropad using the Pico and a few additional components.
+
+## Bill of materials
+TBD
+
+## Hardware assembly guide
+TBD
+
+## Firmware setup guide
+TBD
+
+Feel free to modify and personalize this description according to your specific project and goals. Good luck with your macropad build!
