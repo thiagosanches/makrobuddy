@@ -46,9 +46,16 @@ Waveshare board offers a lot of pins as we can see here:
 ## Firmware setup guide
 - I've used CircuitPython from Adafruit as the firmware, you **must** follow [this](https://learn.adafruit.com/welcome-to-circuitpython?view=all#download-the-latest-version-2977908) guide before push our code into it. Basically, we have to 'prepare' our board with a proper firmware before push the code into it and make it executable.
 
+## Install our code
+- Clone this git repository.
+- Connect your board on a USB port.
+- Copy the `lib/`, `code.py` and `boot_out.txt` file into the `CIRCUITPY` volume (mount point).
+
+That's it! Feel free to modify the python code, by default, I'm using the home key and the arrow keys and the rotary encoder as a volume controller (media controls).
+
 ## References
 - https://learn.adafruit.com/diy-pico-mechanical-keyboard-with-fritzing-circuitpython/code-the-pico-keyboard
 - https://learn.adafruit.com/rotary-encoder/hardware
 - https://www.waveshare.com/rp2040-lcd-1.28.htm
 
-Feel free to modify and personalize this description according to your specific project and goals. Good luck with your macropad build!
+Feel free to modify and personalize according to your specific project and goals. Good luck with your macropad build!
