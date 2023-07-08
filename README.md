@@ -53,6 +53,8 @@ Waveshare board offers a lot of pins as we can see here:
 
 That's it! Feel free to modify the python code, by default, I'm using the home key and the arrow keys and the rotary encoder as a volume controller (media controls).
 
+You also may notice, that the code makes some references to graphics modules/libraries, however I'm still not using since I broke my LCD 😢.
+
 ## References
 - https://learn.adafruit.com/diy-pico-mechanical-keyboard-with-fritzing-circuitpython/code-the-pico-keyboard
 - https://learn.adafruit.com/rotary-encoder/hardware
