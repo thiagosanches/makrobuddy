@@ -9,6 +9,7 @@ import busio
 import rotaryio
 import vectorio
 import digitalio
+import adafruit_imageload
 
 from digitalio import DigitalInOut, Direction, Pull
 from adafruit_hid.keyboard import Keyboard
@@ -29,9 +30,80 @@ time.sleep(1)
 print("---Pico Pad Keyboard---")
 print(board_type)
 
-led = DigitalInOut(board.LED)
-led.direction = Direction.OUTPUT
-led.value = True
+#led = DigitalInOut(board.LED)
+#led.direction = Direction.OUTPUT
+#led.value = True
+
+
+# Display something on the LCD
+tft_clk = board.GP10
+tft_mosi = board.GP11
+tft_rst = board.GP12
+tft_dc = board.GP8
+tft_cs = board.GP9
+tft_bl = board.GP25
+spi = busio.SPI(clock=tft_clk, MOSI=tft_mosi)
+# Make the displayio SPI bus and the GC9A01 display
+display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
+display = gc9a01.GC9A01(display_bus, width=240, height=240, backlight_pin=tft_bl)
+
+# Draw a text label
+text_area = label.Label(terminalio.FONT, text="Hello World", color=0x0000FF, anchor_point=(0.5,0.5), anchored_position=(0,0))
+display.show(text_area)
+
+# Create a bitmap with two colors
+bitmap = displayio.Bitmap(display.width, display.height, 2)
+# Create a two color palette
+palette = displayio.Palette(2)
+palette[0] = 0x000000
+palette[1] = 0xffffff
+
+# Create a TileGrid using the Bitmap and Palette
+tile_grid = displayio.TileGrid(bitmap, pixel_shader=palette)
+
+# Create a Group
+group = displayio.Group()
+
+# Add the TileGrid to the Group
+group.append(tile_grid)
+
+# Add the Group to the Display
+display.show(group)
+
+# Draw a pixel
+bitmap[80, 50] = 1
+
+
+
+# Load the sprite sheet (bitmap)
+sprite_sheet, palette = adafruit_imageload.load("/cp_sprite_sheet.bmp",
+                                                bitmap=displayio.Bitmap,
+                                                palette=displayio.Palette)
+
+# Create a sprite (tilegrid)
+sprite = displayio.TileGrid(sprite_sheet, pixel_shader=palette,
+                            width = 1,
+                            height = 1,
+                            tile_width = 16,
+                            tile_height = 16)
+
+
+# Create a Group to hold the sprite
+group = displayio.Group(scale=10)
+
+# Add the sprite to the Group
+group.append(sprite)
+
+# Add the Group to the Display
+display.show(group)
+
+# Set sprite location
+group.x = 40
+group.y = 35
+source_index = 0
+
+
+# END
 
 button = digitalio.DigitalInOut(board.GP22)
 button.direction = digitalio.Direction.INPUT
@@ -43,7 +115,6 @@ last_position = encoder.position
 
 kbd = Keyboard(usb_hid.devices)
 cc = ConsumerControl(usb_hid.devices)
-
 
 
 # list of pins to use (skipping GP15 on Pico because it's funky)
@@ -74,7 +145,18 @@ for i in range(len(pins)):
    
 switch_state = [0, 0, 0, 0, 0]
 
-while True:
+LAST_BLINK_TIME = -1
+BLINK_OFF_DURATION = 0.5
+
+while True:    
+    # display some art!!!
+    now = time.monotonic()
+    # Is it time to switch the sprite?
+    if now >= LAST_BLINK_TIME + BLINK_OFF_DURATION:
+        sprite[0] = source_index % 6
+        source_index += 1
+        LAST_BLINK_TIME = now
+
     position = encoder.position
     current_position = encoder.position
     position_change = current_position - last_position
@@ -119,5 +201,6 @@ while True:
                 switch_state[button] = 0
 
     time.sleep(0.01)  # debounce
+
 
 
