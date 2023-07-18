@@ -30,11 +30,6 @@ time.sleep(1)
 print("---Pico Pad Keyboard---")
 print(board_type)
 
-#led = DigitalInOut(board.LED)
-#led.direction = Direction.OUTPUT
-#led.value = True
-
-
 # Display something on the LCD
 tft_clk = board.GP10
 tft_mosi = board.GP11
@@ -48,48 +43,25 @@ display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=
 display = gc9a01.GC9A01(display_bus, width=240, height=240, backlight_pin=tft_bl)
 
 # Draw a text label
-text_area = label.Label(terminalio.FONT, text="Hello World", color=0x0000FF, anchor_point=(0.5,0.5), anchored_position=(0,0))
-display.show(text_area)
-
-# Create a bitmap with two colors
-bitmap = displayio.Bitmap(display.width, display.height, 2)
-# Create a two color palette
-palette = displayio.Palette(2)
-palette[0] = 0x000000
-palette[1] = 0xffffff
-
-# Create a TileGrid using the Bitmap and Palette
-tile_grid = displayio.TileGrid(bitmap, pixel_shader=palette)
-
-# Create a Group
-group = displayio.Group()
-
-# Add the TileGrid to the Group
-group.append(tile_grid)
-
-# Add the Group to the Display
-display.show(group)
-
-# Draw a pixel
-bitmap[80, 50] = 1
-
-
 
 # Load the sprite sheet (bitmap)
-sprite_sheet, palette = adafruit_imageload.load("/cp_sprite_sheet.bmp",
-                                                bitmap=displayio.Bitmap,
-                                                palette=displayio.Palette)
+sprite_sheet, palette = adafruit_imageload.load("/cp_sprite_sheet2.bmp",bitmap=displayio.Bitmap,palette=displayio.Palette)
+palette.make_transparent(0)
+
 
 # Create a sprite (tilegrid)
+spriteWidth = 16
+spriteHeight = 16
+
 sprite = displayio.TileGrid(sprite_sheet, pixel_shader=palette,
                             width = 1,
                             height = 1,
-                            tile_width = 16,
-                            tile_height = 16)
+                            tile_width = spriteWidth,
+                            tile_height = spriteHeight)
 
 
 # Create a Group to hold the sprite
-group = displayio.Group(scale=10)
+group = displayio.Group(scale=2)
 
 # Add the sprite to the Group
 group.append(sprite)
@@ -98,10 +70,12 @@ group.append(sprite)
 display.show(group)
 
 # Set sprite location
-group.x = 40
-group.y = 35
-source_index = 0
+centerX = (240/2-1)
+centerY = (240/2-1)
 
+group.x = int((centerX - spriteWidth / 2) - (spriteWidth / 2))
+group.y = int((centerX - spriteHeight / 2) - (spriteHeight / 2))
+source_index = 0
 
 # END
 
