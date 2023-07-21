@@ -15,7 +15,7 @@ For this project I'm using a board from [Waveshare](https://www.waveshare.com/rp
 **UPDATE**: I recently purchased a bare screen from AliExpress ([link](https://www.aliexpress.com/item/1005002525190127.html?spm=a2g0o.order_list.order_list_main.11.5c971802Mmtqq3)). With some successful soldering, I managed to reattach it to the board, and now we can display captivating animated sprites.
 
 ## Display example
-![](example2.mp4)
+![Click here](example2.mp4)
 
 ## Bill of materials
 - [Raspberry Pi-RP2040 Development Board](https://pt.aliexpress.com/item/1005004616586355.html?spm=a2g0o.order_list.order_list_main.21.21efcaa4GvI4NZ&gatewayAdapt=glo2bra).
