@@ -10,6 +10,8 @@ import rotaryio
 import vectorio
 import digitalio
 import adafruit_imageload
+import json
+import random
 
 from digitalio import DigitalInOut, Direction, Pull
 from adafruit_hid.keyboard import Keyboard
@@ -17,7 +19,7 @@ from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control import ConsumerControl
 from adafruit_hid.consumer_control_code import ConsumerControlCode
-from adafruit_display_text import label
+from adafruit_display_text import label, wrap_text_to_lines, wrap_text_to_pixels
 from adafruit_bitmap_font import bitmap_font
 
 board_type = os.uname().machine
@@ -38,33 +40,69 @@ tft_dc = board.GP8
 tft_cs = board.GP9
 tft_bl = board.GP25
 spi = busio.SPI(clock=tft_clk, MOSI=tft_mosi)
+
 # Make the displayio SPI bus and the GC9A01 display
 display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
 display = gc9a01.GC9A01(display_bus, width=240, height=240, backlight_pin=tft_bl)
 
-# Draw a text label
+# Load the sprite sheet 1 (bitmap)
+sprite_sheet_happy, palette_happy = adafruit_imageload.load("/sprites/sun-sprite-happy.bmp",bitmap=displayio.Bitmap,palette=displayio.Palette)
+palette_happy.make_transparent(0)
 
-# Load the sprite sheet (bitmap)
-sprite_sheet, palette = adafruit_imageload.load("/cp_sprite_sheet2.bmp",bitmap=displayio.Bitmap,palette=displayio.Palette)
-palette.make_transparent(0)
+# Load the sprite sheet 2 (bitmap)
+sprite_sheet_angry1, palette_angry1 = adafruit_imageload.load("/sprites/sun-sprite-angry.bmp",bitmap=displayio.Bitmap,palette=displayio.Palette)
+palette_angry1.make_transparent(0)
 
+# Load the sprite sheet 3 (bitmap)
+sprite_sheet_angry2, palette_angry2 = adafruit_imageload.load("/sprites/sun-sprite-angry2.bmp",bitmap=displayio.Bitmap,palette=displayio.Palette)
+palette_angry2.make_transparent(0)
 
-# Create a sprite (tilegrid)
-spriteWidth = 16
-spriteHeight = 16
+# Load the sprite sheet 4 (bitmap)
+sprite_sheet_angry3, palette_angry3 = adafruit_imageload.load("/sprites/sun-sprite-angry3.bmp",bitmap=displayio.Bitmap,palette=displayio.Palette)
+palette_angry3.make_transparent(0)
 
-sprite = displayio.TileGrid(sprite_sheet, pixel_shader=palette,
-                            width = 1,
-                            height = 1,
-                            tile_width = spriteWidth,
-                            tile_height = spriteHeight)
+# Load the sprite sheet 5 (bitmap)
+sprite_sheet_joy, palette_joy = adafruit_imageload.load("/sprites/sun-sprite-joy.bmp",bitmap=displayio.Bitmap,palette=displayio.Palette)
+palette_joy.make_transparent(0)
 
+# Create the sprites (tilegrid)
+spriteWidth = 48
+spriteHeight = 48
+
+# Since our display is mounted upside down :(
+# we have to flip it here on the code.
+
+sprite_happy = displayio.TileGrid(sprite_sheet_happy, pixel_shader=palette_happy, width = 1, height = 1, tile_width = spriteWidth, tile_height = spriteHeight)
+sprite_happy.flip_y = True
+
+sprite_angry = displayio.TileGrid(sprite_sheet_angry1, pixel_shader=palette_angry1, width = 1, height = 1, tile_width = spriteWidth, tile_height = spriteHeight)
+sprite_angry.flip_y = True
+
+sprite_angry2 = displayio.TileGrid(sprite_sheet_angry2, pixel_shader=palette_angry2, width = 1, height = 1, tile_width = spriteWidth, tile_height = spriteHeight)
+sprite_angry2.flip_y = True
+
+sprite_angry3 = displayio.TileGrid(sprite_sheet_angry3, pixel_shader=palette_angry3, width = 1, height = 1, tile_width = spriteWidth, tile_height = spriteHeight)
+sprite_angry3.flip_y = True
+
+sprite_joy = displayio.TileGrid(sprite_sheet_joy, pixel_shader=palette_joy, width = 1, height = 1, tile_width = spriteWidth, tile_height = spriteHeight)
+sprite_joy.flip_y = True
+
+# The numbers are the total of frames per sprite.
+SPRITE_INDEX = 1
+SPRITE_TOTAL_FRAMES = 0
+sprite_map = {
+    (0): (5, sprite_happy),
+    (1): (7, sprite_angry),
+    (2): (6, sprite_angry2),
+    (3): (6, sprite_angry3),
+    (4): (8, sprite_joy)
+}
 
 # Create a Group to hold the sprite
 group = displayio.Group(scale=2)
 
 # Add the sprite to the Group
-group.append(sprite)
+group.append(sprite_map[0][SPRITE_INDEX])
 
 # Add the Group to the Display
 display.show(group)
@@ -77,7 +115,7 @@ group.x = int((centerX - spriteWidth / 2) - (spriteWidth / 2))
 group.y = int((centerX - spriteHeight / 2) - (spriteHeight / 2))
 source_index = 0
 
-# END
+######################################################################### END
 
 button = digitalio.DigitalInOut(board.GP22)
 button.direction = digitalio.Direction.INPUT
@@ -89,7 +127,6 @@ last_position = encoder.position
 
 kbd = Keyboard(usb_hid.devices)
 cc = ConsumerControl(usb_hid.devices)
-
 
 # list of pins to use (skipping GP15 on Pico because it's funky)
 pins = (
@@ -120,16 +157,42 @@ for i in range(len(pins)):
 switch_state = [0, 0, 0, 0, 0]
 
 LAST_BLINK_TIME = -1
-BLINK_OFF_DURATION = 0.5
+BLINK_OFF_DURATION = 0.1
+TOTAL_CYCLE_PER_SPRITE = 4
+CURRENT_SPRITE_OF_CYCLE = 0
+total_cycle = 0
 
 while True:    
-    # display some art!!!
     now = time.monotonic()
-    # Is it time to switch the sprite?
+    
+    # display some art!!!
     if now >= LAST_BLINK_TIME + BLINK_OFF_DURATION:
-        sprite[0] = source_index % 6
+        current = sprite_map[CURRENT_SPRITE_OF_CYCLE]
+        total_frames = int(current[SPRITE_TOTAL_FRAMES])
+        current_sprite = current[SPRITE_INDEX]
+        current_sprite[0] = source_index % (total_frames)
+        
         source_index += 1
+       
+        if source_index == total_frames:
+            source_index = 0
+            total_cycle += 1
+            if total_cycle == TOTAL_CYCLE_PER_SPRITE:
+                total_cycle = 0
+                source_index = 0
+                group.pop()
+                
+                CURRENT_SPRITE_OF_CYCLE = random.randint(0, 4)
+                group.append(sprite_map[CURRENT_SPRITE_OF_CYCLE][SPRITE_INDEX])
+                
         LAST_BLINK_TIME = now
+        
+        #try:
+        #    with open("data.json", "r") as read_file:
+        #        data = json.load(read_file)
+        #        print(data)
+        #except Exception:
+        #    pass
 
     position = encoder.position
     current_position = encoder.position
@@ -137,10 +200,12 @@ while True:
     if position_change > 0:
         for _ in range(position_change):
             cc.send(ConsumerControlCode.VOLUME_INCREMENT)
+            sprite[0] = 1
         print(current_position)
     elif position_change < 0:
         for _ in range(-position_change):
             cc.send(ConsumerControlCode.VOLUME_DECREMENT)
+            sprite[0] = 2
         print(current_position)
     last_position = current_position
    
@@ -175,6 +240,4 @@ while True:
                 switch_state[button] = 0
 
     time.sleep(0.01)  # debounce
-
-
 
