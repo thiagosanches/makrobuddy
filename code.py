@@ -63,7 +63,7 @@ for i in range(len(pins)):
 
 switch_state = [0, 0, 0, 0, 0]
 
-sprite_manager = SpriteManager()
+sprite_manager = SpriteManager("sonic")
 display = Display(sprite_manager)
 
 while True:
@@ -132,3 +132,4 @@ while True:
 
     # debounce
     time.sleep(0.01)
+
