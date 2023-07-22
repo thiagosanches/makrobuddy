@@ -1,0 +1,30 @@
+[
+    {
+        "animation": "idle",
+        "path": "/sprites/sonic/sonic-bored.bmp",
+        "width": 32,
+        "height": 40,
+        "total_frames": 10
+    },
+    {
+        "animation": "walking",
+        "path": "/sprites/sonic/sonic-basic-motion.bmp",
+        "width": 36,
+        "height": 40,
+        "total_frames": 6
+    },
+    {
+        "animation": "running",
+        "path": "/sprites/sonic/sonic-full-speed.bmp",
+        "width": 32,
+        "height": 40,
+        "total_frames": 4
+    },
+    {
+        "animation": "jumping",
+        "path": "/sprites/sonic/sonic-jump.bmp",
+        "width": 32,
+        "height": 32,
+        "total_frames": 5
+    }
+]
