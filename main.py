@@ -22,7 +22,6 @@ displayio.release_displays()
 time.sleep(1)
 
 print("---Pico Pad Keyboard---")
-print("Hello everyone!!!")
 print(os.uname().machine)
 
 button = digitalio.DigitalInOut(board.GP22)
