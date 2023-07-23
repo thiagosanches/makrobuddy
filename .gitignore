@@ -161,3 +161,5 @@ cython_debug/
 
 # my generated files
 fat12.img
+fat12/
+img/
