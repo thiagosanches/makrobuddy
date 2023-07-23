@@ -62,7 +62,7 @@ That's it! Feel free to modify the python code, by default, I'm using the home k
 
 ## How to test it locally without the raspberry pi pico hardware?
 
-If you want to take advantage of some Raspberry Pi Pico emulators available, one great option is [rp2040js](https://github.com/wokwi/rp2040js). With this emulator, I can view the output of my code.py without the need to upload the code to the hardware. 
+If you want to take advantage of some Raspberry Pi Pico emulators available, one great option is [rp2040js](https://github.com/wokwi/rp2040js). With this emulator, I can view the output of my `code.py` without the need to upload the code to the hardware. 
 
 Of course, you won't see the images displayed on the physical screen, but using this method can be helpful for testing or writing unit tests.
 
@@ -84,10 +84,10 @@ sudo mount -o loop fat12.img fat12/  # mount the filesystem to the folder
 sudo cp -ra ~/r/github/yet-another-rp2040-macropad/lib/ ~/r/github/yet-another-rp2040-macropad/sprites/ ~/r/github/yet-another-rp2040-macropad/code.py fat12/  # copy code.py to the filesystem
 ```
 
-Create a python file in order to help you generate a little-fs image:
+Create a python file in order to help you generate a `little-fs` image:
 
 ```bash
-pip3 install littlefs
+pip3 install littlefs-python
 cp ~/r/github/yet-another-rp2040-macropad/code.py .
 ```
 
