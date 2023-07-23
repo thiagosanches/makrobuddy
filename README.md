@@ -55,7 +55,7 @@ Waveshare board offers a lot of pins as we can see here:
 ## Install our code
 - Clone this git repository.
 - Connect your board on a USB port.
-- Copy the `lib/`, `code.py` and `boot_out.txt` file into the `CIRCUITPY` volume (mount point).
+- Copy the `lib/`, `sprites/`, `code.py` and `boot_out.txt` file into the `CIRCUITPY` volume (mount point).
 
 That's it! Feel free to modify the python code, by default, I'm using the home key and the arrow keys and the rotary encoder as a volume controller (media controls).
 
