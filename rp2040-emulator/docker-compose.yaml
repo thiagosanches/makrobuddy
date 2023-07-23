@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  rp2040:
+    build:
+      context: .
+    volumes:
+      - ./img:/app/img
