@@ -26,5 +26,19 @@
         "width": 32,
         "height": 32,
         "total_frames": 5
+    },
+    {
+        "animation": "pushing-object",
+        "path": "/sprites/sonic/sonic-pushing-object.bmp",
+        "width": 32,
+        "height": 40,
+        "total_frames": 4
+    },
+    {
+        "animation": "balancing",
+        "path": "/sprites/sonic/sonic-balancing.bmp",
+        "width": 36,
+        "height": 40,
+        "total_frames": 4
     }
 ]

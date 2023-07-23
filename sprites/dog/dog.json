@@ -1,0 +1,65 @@
+[
+    {
+        "animation": "down",
+        "path": "/sprites/dog/dog_down.bmp",
+        "width": 32,
+        "height": 32,
+        "total_frames": 4
+    },
+    {
+        "animation": "happy",
+        "path": "/sprites/dog/dog_happy.bmp",
+        "width": 32,
+        "height": 32,
+        "total_frames": 7
+    },
+    {
+        "animation": "left",
+        "path": "/sprites/dog/dog_left.bmp",
+        "width": 32,
+        "height": 32,
+        "total_frames": 4
+    },
+    {
+        "animation": "right",
+        "path": "/sprites/dog/dog_right.bmp",
+        "width": 32,
+        "height": 32,
+        "total_frames": 4
+    },
+    {
+        "animation": "running",
+        "path": "/sprites/dog/dog_running.bmp",
+        "width": 32,
+        "height": 32,
+        "total_frames": 4
+    },
+    {
+        "animation": "sad",
+        "path": "/sprites/dog/dog_sad.bmp",
+        "width": 32,
+        "height": 32,
+        "total_frames": 1
+    },
+    {
+        "animation": "sitting",
+        "path": "/sprites/dog/dog_sitting.bmp",
+        "width": 32,
+        "height": 32,
+        "total_frames": 4
+    },
+    {
+        "animation": "sleeping",
+        "path": "/sprites/dog/dog_sleeping.bmp",
+        "width": 32,
+        "height": 32,
+        "total_frames": 2
+    },
+    {
+        "animation": "up",
+        "path": "/sprites/dog/dog_up.bmp",
+        "width": 32,
+        "height": 32,
+        "total_frames": 4
+    }
+]
