@@ -59,11 +59,67 @@ Waveshare board offers a lot of pins as we can see here:
 
 That's it! Feel free to modify the python code, by default, I'm using the home key and the arrow keys and the rotary encoder as a volume controller (media controls).
 
-You also may notice, that the code makes some references to graphics modules/libraries, however I'm still not using since I broke my LCD 😢.
+
+## How to test it locally without the raspberry pi pico hardware?
+
+If you want to take advantage of some Raspberry Pi Pico emulators available, one great option is [rp2040js](https://github.com/wokwi/rp2040js). With this emulator, I can view the output of my code.py without the need to upload the code to the hardware. 
+
+Of course, you won't see the images displayed on the physical screen, but using this method can be helpful for testing or writing unit tests.
+
+### Instructions
+
+All the steps below are described in the official documentation of the project; I'm copying them here to make it easier for future reference.
+
+```bash
+git clone https://github.com/wokwi/rp2040js.git
+cd rp2040js
+wget https://adafruit-circuit-python.s3.amazonaws.com/bin/raspberry_pi_pico/en_US/adafruit-circuitpython-raspberry_pi_pico-en_US-8.0.2.uf2
+npm install
+
+truncate fat12.img -s 1M  # make the image file
+mkfs.vfat -F12 -S512 fat12.img  # create the FAT12 filesystem
+
+mkdir fat12  # create the mounting folder if needed
+sudo mount -o loop fat12.img fat12/  # mount the filesystem to the folder
+sudo cp -ra ~/r/github/yet-another-rp2040-macropad/lib/ ~/r/github/yet-another-rp2040-macropad/sprites/ ~/r/github/yet-another-rp2040-macropad/code.py fat12/  # copy code.py to the filesystem
+```
+
+Create a python file in order to help you generate a little-fs image:
+
+```bash
+pip3 install littlefs
+cp ~/r/github/yet-another-rp2040-macropad/code.py .
+```
+
+```python
+from littlefs import LittleFS
+files = ['code.py']
+output_image = 'littlefs.img'  # symlinked/copied to rp2040js root directory
+lfs = LittleFS(block_size=4096, block_count=352, prog_size=256)
+for filename in files:
+    with open(filename, 'rb') as src_file, lfs.open(filename, 'w') as lfs_file:
+        lfs_file.write(src_file.read().decode('utf-8'))
+with open(output_image, 'wb') as fh:
+    fh.write(lfs.context.buffer)
+```
+
+```bash
+npm run start:circuitpython
+```
+
+You can press `CTRL+X` to exit. If you make any changes to your code, simply copy the files again to the mount point (`fat12`) and repeat the process to run the emulator once more.
+
+When you have finished the loop of coding and copying your code into the mountpoint (FAT12), you can unmount it:
+
+```bash
+sudo umount fat12/  # unmount the filesystem
+```
 
 ## References
 - https://learn.adafruit.com/diy-pico-mechanical-keyboard-with-fritzing-circuitpython/code-the-pico-keyboard
 - https://learn.adafruit.com/rotary-encoder/hardware
 - https://www.waveshare.com/rp2040-lcd-1.28.htm
+- https://github.com/wokwi/rp2040js
+- https://raspberrypi.stackexchange.com/questions/136825/emulator-for-rp2040
 
 Feel free to modify and personalize according to your specific project and goals. Good luck with your macropad build!
