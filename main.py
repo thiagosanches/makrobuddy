@@ -7,8 +7,11 @@ import rotaryio
 import digitalio
 import random
 
+from lib.helpers.TextManager import TextManager
 from lib.helpers.SpriteManager import SpriteManager
 from lib.helpers.Display import Display
+
+
 
 from digitalio import DigitalInOut, Direction, Pull
 from adafruit_hid.keyboard import Keyboard
@@ -65,6 +68,11 @@ switch_state = [0, 0, 0, 0, 0]
 
 sprite_manager = SpriteManager("sonic")
 display = Display(sprite_manager)
+text_manager = TextManager(display)
+text_manager.set_text("Meeting that contains a big big very big, Ive said a big title in the event calendar")
+time.sleep(10)
+original_group = display.get_group()
+display.get().show(original_group)
 
 while True:
     now = time.monotonic()
