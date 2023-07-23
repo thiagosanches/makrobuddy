@@ -91,5 +91,6 @@ You can press `CTRL+X` to exit the REPL and `exit` to quit the container. If you
 - https://www.waveshare.com/rp2040-lcd-1.28.htm
 - https://github.com/wokwi/rp2040js
 - https://raspberrypi.stackexchange.com/questions/136825/emulator-for-rp2040
+- https://learn.adafruit.com/circuitpython-display_text-library/overview
 
 Feel free to modify and personalize according to your specific project and goals. Good luck with your macropad build!
