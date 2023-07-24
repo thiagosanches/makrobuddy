@@ -4,7 +4,7 @@ import json
 
 
 class SpriteManager:
-    def __init__(self, character):
+    def __init__(self, character, display_width, display_height):
         self.sprites = {}
         self.source_index = 0
 
@@ -42,6 +42,21 @@ class SpriteManager:
                 self.sprites[index] = (
                     item["total_frames"], sprite, item["width"], item["height"])
                 index += 1
+
+        # Create a Group to hold the sprites.
+        self.group = displayio.Group(scale=2)
+
+        # Add the sprite to the Group.
+        self.group.append(self.get_current_sprite())
+
+        # Set sprite location.
+        self.center_x = (display_width / 2 - 1)
+        self.center_y = (display_height / 2 - 1)
+
+        self.group.x = int(
+            (self.center_x - self.get_sprite_width() / 2) - (self.get_sprite_width() / 2))
+        self.group.y = int(
+            (self.center_x - self.get_sprite_height() / 2) - (self.get_sprite_height() / 2))
 
     def get_sprite_width(self):
         current = self.sprites[self.current_sprite_of_cycle]

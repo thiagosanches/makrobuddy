@@ -21,8 +21,7 @@ from adafruit_hid.consumer_control_code import ConsumerControlCode
 
 # Release any resources currently in use for the displays
 displayio.release_displays()
-
-time.sleep(1)
+time.sleep(0.5)
 
 print("---Pico Pad Keyboard---")
 print(os.uname().machine)
@@ -66,13 +65,15 @@ for i in range(len(pins)):
 
 switch_state = [0, 0, 0, 0, 0]
 
-sprite_manager = SpriteManager("sonic")
-display = Display(sprite_manager)
-text_manager = TextManager(display)
-text_manager.set_text("Meeting that contains a big big very big, Ive said a big title in the event calendar")
-time.sleep(10)
-original_group = display.get_group()
-display.get().show(original_group)
+display = Display()
+
+text_manager = TextManager(display.width, display.height)
+text_manager.set_text("The quick brown fox jumps over the lazy dog.")
+display.GC9A01.show(text_manager.group)
+time.sleep(5)
+
+sprite_manager = SpriteManager("sonic", display.width, display.height)
+display.GC9A01.show(sprite_manager.group)
 
 while True:
     now = time.monotonic()
@@ -87,10 +88,12 @@ while True:
             if sprite_manager.get_total_cycle() == sprite_manager.get_total_cycle_per_sprite():
                 sprite_manager.set_total_cycle(0)
                 sprite_manager.set_source_index(0)
-                display.get_group().pop()
+                
+                sprite_manager.group.pop()
                 sprite_manager.set_current_sprite_of_cycle(
                     random.randint(0, len(sprite_manager.get_all_sprites())-1))
-                display.get_group().append(sprite_manager.get_all_sprites()[
+                
+                sprite_manager.group.append(sprite_manager.get_all_sprites()[
                     sprite_manager.get_current_sprite_of_cycle()][sprite_manager.get_sprite_index()])
 
         sprite_manager.set_last_blink_time(now)

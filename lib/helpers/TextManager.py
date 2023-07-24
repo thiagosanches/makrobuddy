@@ -2,10 +2,10 @@ import displayio
 from adafruit_bitmap_font import bitmap_font
 from adafruit_display_text import bitmap_label as label
 
+
 class TextManager:
-    def __init__(self, display):
-        self.display = display
-        self.text_group = displayio.Group()
+    def __init__(self, display_width, display_height):
+        self.group = displayio.Group()
         self.font = bitmap_font.load_font("/fonts/LeagueSpartan-Bold-16.bdf")
         self.label = label.Label(
             font=self.font,
@@ -16,15 +16,17 @@ class TextManager:
             save_text=False
         )
         self.label.anchor_point = (0.5, 0.5)
-        self.label.anchored_position = (display.width // 2, display.height // 2)
-        self.text_group.append(self.label)
+        self.label.anchored_position = (
+            display_width // 2, display_height // 2)
+        self.group.append(self.label)
 
     def wrap_nicely(self, string, max_chars):
         """A helper that will return the string with word-break wrapping.
         :param str string: The text to be wrapped.
         :param int max_chars: The maximum number of characters on a line before wrapping.
         """
-        string = string.replace('\n', '').replace('\r', '') # strip confusing newlines
+        string = string.replace('\n', '').replace(
+            '\r', '')  # strip confusing newlines
         words = string.split(' ')
         the_lines = []
         the_line = ""
@@ -44,5 +46,3 @@ class TextManager:
 
     def set_text(self, string):
         self.label.text = self.wrap_nicely(string, 20)
-        self.display.get().show(self.text_group)
-
