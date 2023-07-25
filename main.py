@@ -6,13 +6,11 @@ import usb_hid
 import rotaryio
 import digitalio
 import random
+import supervisor
 
 from lib.helpers.TextManager import TextManager
 from lib.helpers.SpriteManager import SpriteManager
 from lib.helpers.Display import Display
-
-
-
 from digitalio import DigitalInOut, Direction, Pull
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
@@ -22,6 +20,9 @@ from adafruit_hid.consumer_control_code import ConsumerControlCode
 # Release any resources currently in use for the displays
 displayio.release_displays()
 time.sleep(0.5)
+
+# Disable auto_reload
+supervisor.disable_autoreload()
 
 print("---Pico Pad Keyboard---")
 print(os.uname().machine)
