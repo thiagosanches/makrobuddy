@@ -71,9 +71,9 @@ display = Display()
 event_manager = EventManager()
 
 text_manager = TextManager(display.width, display.height)
-text_manager.set_text("The quick brown fox jumps over the lazy dog.")
+text_manager.set_text("MakroBuddy 1.0")
 display.GC9A01.show(text_manager.group)
-time.sleep(5)
+time.sleep(2)
 
 sprite_manager = SpriteManager("sonic", display.width, display.height)
 display.GC9A01.show(sprite_manager.group)
