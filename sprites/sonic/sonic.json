@@ -4,7 +4,7 @@
         "path": "/sprites/sonic/sonic-bored.bmp",
         "width": 32,
         "height": 40,
-        "total_frames": 10
+        "total_frames": 9
     },
     {
         "animation": "walking",
