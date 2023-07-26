@@ -44,6 +44,7 @@ The truly remarkable aspect of dunst is its flexibility. By exploring the offici
 - Hot glue (to keep the wires on the waveshare board, since I don't have some male 1.27 pins).
 - Soldering iron.
 - 3d printed housing  (you can use the one that I've built [here](https://www.tinkercad.com/things/47IuxGAQAh5)).
+- If for some reason you broke your LCD you can replace just the display on the waveshare board, I did that and replaced with [this](https://www.aliexpress.com/item/1005002525190127.html?spm=a2g0o.order_list.order_list_main.11.5c971802Mmtqq3).
 
 ## Hardware assembly guide
 
