@@ -11,6 +11,7 @@ import supervisor
 from lib.helpers.TextManager import TextManager
 from lib.helpers.SpriteManager import SpriteManager
 from lib.helpers.Display import Display
+from lib.helpers.EventManager import EventManager
 from digitalio import DigitalInOut, Direction, Pull
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
@@ -75,6 +76,8 @@ time.sleep(5)
 
 sprite_manager = SpriteManager("sonic", display.width, display.height)
 display.GC9A01.show(sprite_manager.group)
+
+event_manager = EventManager
 
 while True:
     now = time.monotonic()
