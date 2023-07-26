@@ -2,21 +2,39 @@
 
 This Git repository provides step-by-step instructions and code samples for building your own MakroBuddy using the Raspberry Pi Pico microcontroller board. A macropad is a programmable keypad with customizable buttons that can be used to automate tasks, streamline workflows, or enhance productivity.
 
-The Raspberry Pi Pico is a powerful yet affordable microcontroller board that offers a wide range of possibilities for DIY projects. By following the instructions in this repository, you'll be able to create your own macropad using the Pico and a few additional components.
+### Why it's called MakroBuddy?
+Besides offering convenient hot-keys, MakroBuddy can also serve as a helpful **reminder** for important events displayed on your screen. Moreover, it brings captivating animated sprites that will be your delightful companions throughout the day ❤️.
 
-| Photo A                            |  Photo B                            |
-| ----------------------------------- | ----------------------------------- |
-| ![image](https://github.com/thiagosanches/yet-another-rp2040-macropad/assets/5191469/f7b57aa0-b103-4cf7-b7d5-47833562f37e) | ![image](https://github.com/thiagosanches/yet-another-rp2040-macropad/assets/5191469/4682dc8b-548b-4197-a9b8-ca7d19ab609b) |
+![Alt text](image.png)
 
-For this project I'm using a board from [Waveshare](https://www.waveshare.com/rp2040-lcd-1.28.htm) (RP2040 MCU Board, With 1.28inch Round LCD) that was laying around here. It uses a raspberry pi pico (rp2040) as its microcontroler, so it's possible to build a HID (Human Interface Device). In this repository, you'll discover a convenient housing specifically designed for this project. It includes designated spots for the Waveshare board, rotary encoder, and mechanical switches, ensuring a clean and organized assembly.
+For this project I'm using a board from [Waveshare](https://www.waveshare.com/rp2040-lcd-1.28.htm) (RP2040 MCU Board, With 1.28inch Round LCD). It uses a raspberry pi pico (rp2040) as its microcontroler, so it's possible to build a HID (Human Interface Device). In this repository, you'll discover a convenient housing specifically designed for this project. It includes designated spots for the Waveshare board, rotary encoder, and mechanical switches, ensuring a clean and organized assembly.
 
-**Important:** Please take note that the LCD in my previous assembly was accidentally damaged during this project. Therefore, it is crucial to exercise caution when mounting the LCD into the housing or avoid any potential mishaps, such as dropping it on the floor. 
+## Running Example
 
-**UPDATE**: I recently purchased a bare screen from AliExpress ([link](https://www.aliexpress.com/item/1005002525190127.html?spm=a2g0o.order_list.order_list_main.11.5c971802Mmtqq3)). With some successful soldering, I managed to reattach it to the board, and now we can display captivating animated sprites.
-
-## Display example
+When no important messages are present, the screen showcases a delightful random sprite animation, fully configurable to your liking. If you want to know more click [here](./ADD_MORE_SPRITES.md).
 
 ![](20230722_094031.gif)
+
+
+## How it gets the notifications/events?
+
+The board doesn't have any wifi/network capability, so...
+
+As a devoted [dunst](https://github.com/dunst-project/dunst) user, I realized I could leverage its event-intercepting capabilities to enhance my workflow. You can find more about this feature [here](https://wiki.archlinux.org/title/Dunst#Scripting).
+
+Essentially, the idea is to configure dunst to trigger this [script](./dunst-to-file/notify.sh) here whenever a specific event occurs. This script sends the relevant data to the `CIRCUITPY` mount point. 
+
+The only drawback is that you need to manually mount the `CIRCUITPY` folder every time you plug or unplug the device. I am aware that other methods, like serial communication, could be used to send data through USB, but I preferred this approach for simplicity and ease of use.
+
+If you choose to follow the same approach as I did, configuring your dunst is straightforward. Just follow these steps:
+
+```
+[all]
+summary = "*"
+script = /path/to/the/dunst-to-file/notify.sh
+```
+
+The truly remarkable aspect of dunst is its flexibility. By exploring the official documentation, you'll discover the ability to customize any event and link it to your desired script. This empowers you to avoid the hassle of having all notifications displayed, tailoring your notification experience to perfection.
 
 ## Bill of materials
 - [Raspberry Pi-RP2040 Development Board](https://pt.aliexpress.com/item/1005004616586355.html?spm=a2g0o.order_list.order_list_main.21.21efcaa4GvI4NZ&gatewayAdapt=glo2bra).
@@ -55,14 +73,14 @@ Waveshare board offers a lot of pins as we can see here:
 ## Install our code
 - Clone this git repository.
 - Connect your board on a USB port.
-- Copy the `lib/`, `sprites/`, `code.py` and `boot_out.txt` file into the `CIRCUITPY` volume (mount point).
+- Copy the `lib/`, `sprites/`, `main.py` and `boot_out.txt` file into the `CIRCUITPY` volume (mount point).
 
 That's it! Feel free to modify the python code, by default, I'm using the home key and the arrow keys and the rotary encoder as a volume controller (media controls).
 
 
 ## How to test it locally without the raspberry pi pico hardware?
 
-If you want to take advantage of some Raspberry Pi Pico emulators available, one great option is [rp2040js](https://github.com/wokwi/rp2040js). With this emulator, I can view the output of my `code.py` without the need to upload the code to the hardware. 
+If you want to take advantage of some Raspberry Pi Pico emulators available, one great option is [rp2040js](https://github.com/wokwi/rp2040js). With this emulator, I can view the output of my `main.py` without the need to upload the code to the hardware. 
 
 Of course, you won't see the images displayed on the physical screen, but using this method can be helpful for testing or writing unit tests.
 
