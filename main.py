@@ -68,7 +68,7 @@ for i in range(len(pins)):
 switch_state = [0, 0, 0, 0, 0]
 
 display = Display()
-event_manager = EventManager
+event_manager = EventManager()
 
 text_manager = TextManager(display.width, display.height)
 text_manager.set_text("The quick brown fox jumps over the lazy dog.")
