@@ -68,6 +68,7 @@ for i in range(len(pins)):
 switch_state = [0, 0, 0, 0, 0]
 
 display = Display()
+event_manager = EventManager
 
 text_manager = TextManager(display.width, display.height)
 text_manager.set_text("The quick brown fox jumps over the lazy dog.")
@@ -77,7 +78,7 @@ time.sleep(5)
 sprite_manager = SpriteManager("sonic", display.width, display.height)
 display.GC9A01.show(sprite_manager.group)
 
-event_manager = EventManager
+
 
 while True:
     now = time.monotonic()
