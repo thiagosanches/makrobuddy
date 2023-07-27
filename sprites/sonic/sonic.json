@@ -1,5 +1,10 @@
 {
     "exploreScreen": true,
+    "scene": {
+        "path": "/sprites/sonic/scene.bmp",
+        "width": 240,
+        "height": 240
+    },
     "animations": [
         {
             "type": "idle",
