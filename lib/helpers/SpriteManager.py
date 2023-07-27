@@ -28,7 +28,7 @@ class SpriteManager:
 
         with open(f"/sprites/{character}/{character}.json", "r") as read_file:
             data = json.load(read_file)
-            print("Locading character sprites...")
+            print("Loading character sprites...")
             print(data)
             self.explore_screen = data["exploreScreen"]
             index = 0
