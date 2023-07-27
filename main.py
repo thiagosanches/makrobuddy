@@ -103,13 +103,14 @@ while True:
 
     if now >= (event_manager.last_time_read + event_manager.period_check) and not event_manager.showing_message:
         event = event_manager.get()
-        if event["uuid"] != event_manager.uuid:
-            event_manager.uuid = event["uuid"]
-            event_manager.showing_message = True
-            event_manager.last_time_read = now
+        if event != None:
+            if event["uuid"] != event_manager.uuid:
+                event_manager.uuid = event["uuid"]
+                event_manager.showing_message = True
+                event_manager.last_time_read = now
 
-            text_manager.set_text(event["message"])
-            display.GC9A01.show(text_manager.group)
+                text_manager.set_text(event["message"])
+                display.GC9A01.show(text_manager.group)
 
     # important messages should stay like 30 seconds on the screen!
     if (event_manager.last_time_read + event_manager.ttl) <= now:

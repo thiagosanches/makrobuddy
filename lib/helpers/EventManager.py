@@ -9,5 +9,8 @@ class EventManager:
         self.period_check = 60
 
     def get(self):
-        with open(f"/event.json", "r") as read_file:
-            return json.load(read_file)
+        try:
+            with open(f"/event.json", "r") as read_file:
+                return json.load(read_file)
+        except:
+                return None
