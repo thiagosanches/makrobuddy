@@ -22,12 +22,17 @@ class SpriteManager:
         self.total_cycle_per_sprite = 4
         self.current_sprite_of_cycle = 0
         self.total_cycle = 0
+        self.explore_screen = False
+        self.position_x_animated = -1
+        self.going_backwards = False
 
         with open(f"/sprites/{character}/{character}.json", "r") as read_file:
             data = json.load(read_file)
+            print("Locading character sprites...")
+            print(data)
+            self.explore_screen = data["exploreScreen"]
             index = 0
-            for item in data:
-                print(item['animation'])
+            for item in data["animations"]:
 
                 sprite_sheet, palette = adafruit_imageload.load(
                     item["path"], bitmap=displayio.Bitmap, palette=displayio.Palette)
@@ -40,7 +45,7 @@ class SpriteManager:
                 sprite.flip_y = True
 
                 self.sprites[index] = (
-                    item["total_frames"], sprite, item["width"], item["height"])
+                    item["total_frames"], sprite, item["width"], item["height"], item["type"])
                 index += 1
 
         # Create a Group to hold the sprites.
@@ -97,6 +102,31 @@ class SpriteManager:
 
     def change_frame_current_sprite(self):
         current = self.get_current_sprite()
+
+
+        if self.explore_screen:
+            type_animation = self.sprites[self.current_sprite_of_cycle][4]
+
+            if self.position_x_animated == -1:
+                self.position_x_animated = current.x
+
+            if type_animation != "idle" and type_animation != "pushing-object" and type_animation != "balancing":
+
+                if self.going_backwards:
+                    self.position_x_animated -= 3
+                else:
+                    self.position_x_animated += 3
+                
+                if self.position_x_animated == 24:
+                    self.going_backwards = True
+                    current.flip_x = True
+                
+                if self.position_x_animated == -24:
+                    self.going_backwards = False
+                    current.flip_x = False
+
+        current.x = self.position_x_animated
+        current.flip_x = self.going_backwards
         current[0] = self.source_index % self.get_total_frames_of_current_sprite()
         self.set_source_index(self.get_source_index() + 1)
 
