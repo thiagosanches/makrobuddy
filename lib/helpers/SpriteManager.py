@@ -1,146 +1,100 @@
 import adafruit_imageload
 import displayio
 import json
+import random
+from makrobuddy.Sprite import Sprite
+
+FIRST = 0
+CYCLE_PER_SPRITE = 4
+SCREEN_LIMIT = 24
 
 
 class SpriteManager:
     def __init__(self, character, display_width, display_height):
         self.sprites = {}
-        self.source_index = 0
 
-        self.sprite_width = 48
-        self.sprite_height = 48
-
-        self.sprite_total_frames = 0
-        self.sprite_index = 1
-        self.sprite_width = 2
-        self.sprite_height = 3
-
-        # To control the animation.
-        self.last_blink_time = -1
-        self.blink_off_duration = 0.1
-        self.total_cycle_per_sprite = 4
+        self.current_frame_running_sprite = 0
         self.current_sprite_of_cycle = 0
         self.total_cycle = 0
+        self.current_sprite_going_backwards = False
         self.explore_screen = False
+        self.last_blink_time = 0
+        self.blink_off_duration = 0.1
+        self.index_current_running_sprite = 0
         self.position_x_animated = -1
-        self.going_backwards = False
 
         with open(f"/sprites/{character}/{character}.json", "r") as read_file:
             data = json.load(read_file)
-            print("Loading character sprites...")
-            print(data)
             self.explore_screen = data["exploreScreen"]
-            index = 0
-            for item in data["animations"]:
 
-                sprite_sheet, palette = adafruit_imageload.load(
-                    item["path"], bitmap=displayio.Bitmap, palette=displayio.Palette)
-                palette.make_transparent(0)
+            for index, item in enumerate(data["animations"]):
+                self.sprites[index] = Sprite(
+                    item["path"], item["width"], item["height"], item["total_frames"], item["type"], item["velocity"])
 
-                # Since our display is mounted upside down :(
-                # we have to flip it here on the code.
-                sprite = displayio.TileGrid(sprite_sheet, pixel_shader=palette, width=1,
-                                            height=1, tile_width=item["width"], tile_height=item["height"])
-                sprite.flip_y = True
+        # Create a Group that holds the sprite.
+        self.sprite_group = displayio.Group(scale=2)
 
-                self.sprites[index] = (
-                    item["total_frames"], sprite, item["width"], item["height"], item["type"])
-                index += 1
+        # Add the first sprite into the Group.
+        self.sprite_group.append(self.sprites[FIRST].sprite)
 
-        # Create a Group to hold the sprites.
-        self.group = displayio.Group(scale=2)
-
-        # Add the sprite to the Group.
-        self.group.append(self.get_current_sprite())
-
-        # Set sprite location.
+        # Set group sprite location (in the middle of screen).
         self.center_x = (display_width / 2 - 1)
         self.center_y = (display_height / 2 - 1)
 
-        self.group.x = int(
-            (self.center_x - self.get_sprite_width() / 2) - (self.get_sprite_width() / 2))
-        self.group.y = int(
-            (self.center_x - self.get_sprite_height() / 2) - (self.get_sprite_height() / 2))
+        self.sprite_group.x = int((self.center_x - self.sprites[FIRST].sprite.width / 2) - (self.sprites[FIRST].sprite.width / 2))
+        self.sprite_group.y = int((self.center_x - self.sprites[FIRST].sprite.height / 2) - (self.sprites[FIRST].sprite.height / 2))
 
-    def get_sprite_width(self):
-        current = self.sprites[self.current_sprite_of_cycle]
-        return current[self.sprite_width]
+    def run(self, now):
+        self.last_blink_time = now
+        current = self.sprites[self.index_current_running_sprite]
 
-    def get_sprite_height(self):
-        current = self.sprites[self.current_sprite_of_cycle]
-        return current[self.sprite_height]
+        # If we achieve the total numer of frames of the current sprite, let's change a little bit the animation,
+        # or resets if it's not the total cycle per running sprite yet.
+        if self.current_frame_running_sprite == current.total_frames:
+            self.current_frame_running_sprite = 0
+            self.total_cycle = self.total_cycle + 1
 
-    def get_last_blink_time(self):
-        return self.last_blink_time
+            # If it's equal the CYCLE_PER_SPRITE it's time to change the animation!!!
+            if self.total_cycle == CYCLE_PER_SPRITE:
+                print("TROCOU")
+                self.total_cycle = 0
+                self.current_frame_running_sprite = 0
 
-    def set_last_blink_time(self, value):
-        self.last_blink_time = value
+                self.sprite_group.pop()
 
-    def get_blink_off_duration(self):
-        return self.blink_off_duration
+                # Randomize the next sprite index that will be appended into the sprite group.
+                self.index_current_running_sprite = random.randint(
+                    0, len(self.sprites) - 1)
+                current.sprite = self.sprites[self.index_current_running_sprite].sprite
+                current.sprite.x = self.position_x_animated
 
-    def get_current_sprite(self):
-        current = self.sprites[self.current_sprite_of_cycle]
-        return current[self.sprite_index]
-
-    def get_total_frames_of_current_sprite(self):
-        current = self.sprites[self.current_sprite_of_cycle]
-        return int(current[self.sprite_total_frames])
-
-    def set_current_sprite_of_cycle(self, value):
-        self.current_sprite_of_cycle = value
-
-    def get_current_sprite_of_cycle(self):
-        return self.current_sprite_of_cycle
-
-    def get_source_index(self):
-        return self.source_index
-
-    def set_source_index(self, value):
-        self.source_index = value
-
-    def change_frame_current_sprite(self):
-        current = self.get_current_sprite()
-
+                self.sprite_group.append(current.sprite)
 
         if self.explore_screen:
-            type_animation = self.sprites[self.current_sprite_of_cycle][4]
-
             if self.position_x_animated == -1:
-                self.position_x_animated = current.x
+                self.position_x_animated = current.sprite.x
 
-            if type_animation != "idle" and type_animation != "pushing-object" and type_animation != "balancing":
-
-                if self.going_backwards:
-                    self.position_x_animated -= 3
+            if current.velocity > 0:
+                if self.current_sprite_going_backwards:
+                    self.position_x_animated -= current.velocity
                 else:
-                    self.position_x_animated += 3
-                
-                if self.position_x_animated == 24:
-                    self.going_backwards = True
+                    self.position_x_animated += current.velocity
+
+                if self.position_x_animated >= SCREEN_LIMIT:
+                    self.current_sprite_going_backwards = True
                     current.flip_x = True
-                
-                if self.position_x_animated == -24:
-                    self.going_backwards = False
+
+                if self.position_x_animated <= SCREEN_LIMIT * -1:
+                    self.current_sprite_going_backwards = False
                     current.flip_x = False
 
-        current.x = self.position_x_animated
-        current.flip_x = self.going_backwards
-        current[0] = self.source_index % self.get_total_frames_of_current_sprite()
-        self.set_source_index(self.get_source_index() + 1)
-
-    def get_all_sprites(self):
-        return self.sprites
-
-    def get_total_cycle(self):
-        return self.total_cycle
-
-    def set_total_cycle(self, value):
-        self.total_cycle = value
-
-    def get_total_cycle_per_sprite(self):
-        return self.total_cycle_per_sprite
-
-    def get_sprite_index(self):
-        return self.sprite_index
+        print(current.type)
+        print(self.current_frame_running_sprite % current.total_frames)
+        print(self.current_frame_running_sprite)
+        
+        current.sprite.x = self.position_x_animated
+        current.sprite.flip_x = self.current_sprite_going_backwards
+        current.sprite[0] = self.current_frame_running_sprite % current.total_frames
+        self.current_frame_running_sprite = self.current_frame_running_sprite + 1
+        
+        

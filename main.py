@@ -68,6 +68,7 @@ for i in range(len(pins)):
 switch_state = [0, 0, 0, 0, 0]
 
 display = Display()
+display.GC9A01.auto_refresh = False
 event_manager = EventManager()
 
 text_manager = TextManager(display.width, display.height)
@@ -76,30 +77,15 @@ display.GC9A01.show(text_manager.group)
 time.sleep(2)
 
 sprite_manager = SpriteManager("sonic", display.width, display.height)
-display.GC9A01.show(sprite_manager.group)
+display.GC9A01.show(sprite_manager.sprite_group)
 
 while True:
     now = time.monotonic()
 
     # display some art if there is no important message!
-    if not event_manager.showing_message and now >= sprite_manager.get_last_blink_time() + sprite_manager.get_blink_off_duration():
-        sprite_manager.change_frame_current_sprite()
-
-        if sprite_manager.get_source_index() == sprite_manager.get_total_frames_of_current_sprite():
-            sprite_manager.set_source_index(0)
-            sprite_manager.set_total_cycle(sprite_manager.get_total_cycle()+1)
-            if sprite_manager.get_total_cycle() == sprite_manager.get_total_cycle_per_sprite():
-                sprite_manager.set_total_cycle(0)
-                sprite_manager.set_source_index(0)
-
-                sprite_manager.group.pop()
-                sprite_manager.set_current_sprite_of_cycle(
-                    random.randint(0, len(sprite_manager.get_all_sprites())-1))
-
-                sprite_manager.group.append(sprite_manager.get_all_sprites()[
-                    sprite_manager.get_current_sprite_of_cycle()][sprite_manager.get_sprite_index()])
-
-        sprite_manager.set_last_blink_time(now)
+    if not event_manager.showing_message and now >= sprite_manager.last_blink_time  + sprite_manager.blink_off_duration:
+        sprite_manager.run(now)
+        display.GC9A01.refresh()
 
     if now >= (event_manager.last_time_read + event_manager.period_check) and not event_manager.showing_message:
         event = event_manager.get()
@@ -111,11 +97,13 @@ while True:
 
                 text_manager.set_text(event["message"])
                 display.GC9A01.show(text_manager.group)
+                display.GC9A01.refresh()
 
     # important messages should stay like 30 seconds on the screen!
     if (event_manager.last_time_read + event_manager.ttl) <= now:
         event_manager.showing_message = False
-        display.GC9A01.show(sprite_manager.group)
+        display.GC9A01.show(sprite_manager.sprite_group)
+        display.GC9A01.refresh()
 
     position = encoder.position
     current_position = encoder.position

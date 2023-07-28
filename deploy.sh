@@ -1,5 +1,13 @@
 #!/bin/bash
 
-rsync -avh lib/helpers/ "/media/$USER/CIRCUITPY/lib/helpers" 
-rsync -avh sprites/ "/media/$USER/CIRCUITPY/sprites"
-rsync -avh main.py "/media/$USER/CIRCUITPY"
+mkdir -p "/media/$USER/CIRCUITPY/lib"
+mkdir -p "/media/$USER/CIRCUITPY/sprites"
+mkdir -p "/media/$USER/CIRCUITPY/fonts"
+
+rsync -avhru --delete "lib" "/media/$USER/CIRCUITPY"
+rsync -avhru --delete "fonts" "/media/$USER/CIRCUITPY"
+rsync -avhru --delete "sprites" "/media/$USER/CIRCUITPY"
+rsync -avhru --delete "main.py" "/media/$USER/CIRCUITPY"
+
+# synchronize cached writes to persistent storage.
+sync
