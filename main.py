@@ -5,13 +5,13 @@ import os
 import usb_hid
 import rotaryio
 import digitalio
-import random
 import supervisor
 
-from lib.helpers.TextManager import TextManager
-from lib.helpers.SpriteManager import SpriteManager
-from lib.helpers.Display import Display
-from lib.helpers.EventManager import EventManager
+from makrobuddy.helpers.TextManager import TextManager
+from makrobuddy.helpers.SpriteManager import SpriteManager
+from makrobuddy.helpers.Display import Display
+from makrobuddy.helpers.EventManager import EventManager
+
 from digitalio import DigitalInOut, Direction, Pull
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
