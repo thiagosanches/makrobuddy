@@ -72,7 +72,7 @@ display.GC9A01.show(text_manager.group)
 display.GC9A01.refresh()
 time.sleep(0.5)
 
-sprite_manager = SpriteManager("sonic", display.width, display.height)
+sprite_manager = SpriteManager("turtle-sea", display.width, display.height)
 display.GC9A01.show(sprite_manager.main_group)
 display.GC9A01.refresh()
 

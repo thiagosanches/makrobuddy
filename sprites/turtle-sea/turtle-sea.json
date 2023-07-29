@@ -1,0 +1,47 @@
+{
+    "exploreScreen": true,
+    "tileSet": {
+        "visible": true,
+        "path": "/sprites/turtle-sea/tile-set.bmp",
+        "width": 32,
+        "height": 32,
+        "scene": [
+            [
+                "30;30;13;22;32;37;37;37",
+                "30;30;13;22;32;37;37;37",
+                "30;30;13;22;32;37;37;37",
+                "30;30;13;22;32;37;37;37",
+                "30;30;13;22;32;37;37;37",
+                "30;30;13;22;32;37;37;37",
+                "30;30;13;22;32;37;37;37",
+                "30;30;13;22;32;37;37;37"
+            ]
+        ]
+    },
+    "animations": [
+        {
+            "type": "idle",
+            "path": "/sprites/turtle-sea/turtle-idle.bmp",
+            "width": 48,
+            "height": 48,
+            "total_frames": 4,
+            "velocity": 0
+        },
+        {
+            "type": "walking",
+            "path": "/sprites/turtle-sea/turtle-walk.bmp",
+            "width": 48,
+            "height": 48,
+            "total_frames": 6,
+            "velocity": 3
+        },
+        {
+            "type": "attacking",
+            "path": "/sprites/turtle-sea/turtle-attack.bmp",
+            "width": 48,
+            "height": 48,
+            "total_frames": 6,
+            "velocity": 7
+        }
+    ]
+}
