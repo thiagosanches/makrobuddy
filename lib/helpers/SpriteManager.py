@@ -17,6 +17,9 @@ WIDTH_JSON_FIELD = "width"
 HEIGHT_JSON_FIELD = "height"
 VISIBLE_JSON_FIELD = "visible"
 SCENE_JSON_FIELD = "scene"
+TOTAL_FRAMES_JSON_FIELD = "total_frames"
+TYPE_JSON_FIELD = "type"
+VELOCITY_JSON_FIELD = "velocity"
 
 
 class SpriteManager:
@@ -58,7 +61,12 @@ class SpriteManager:
 
             for index, item in enumerate(data[ANIMATIONS_JSON_FIELD]):
                 self.sprites[index] = Sprite(
-                    item["path"], item["width"], item["height"], item["total_frames"], item["type"], item["velocity"])
+                    item[PATH_JSON_FIELD],
+                    item[WIDTH_JSON_FIELD],
+                    item[HEIGHT_JSON_FIELD],
+                    item[TOTAL_FRAMES_JSON_FIELD],
+                    item[TYPE_JSON_FIELD],
+                    item[VELOCITY_JSON_FIELD])
 
         # Create a Group that holds the sprite.
         self.sprite_group = displayio.Group(scale=2)
