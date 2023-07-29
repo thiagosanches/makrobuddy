@@ -1,10 +1,9 @@
-import adafruit_imageload
 import displayio
 import json
 import random
 from makrobuddy.Sprite import Sprite
 
-FIRST = 0
+FIRST_SPRITE = 0
 CYCLE_PER_SPRITE = 4
 SCREEN_LIMIT = 24
 
@@ -12,7 +11,6 @@ SCREEN_LIMIT = 24
 class SpriteManager:
     def __init__(self, character, display_width, display_height):
         self.sprites = {}
-
         self.current_frame_running_sprite = 0
         self.current_sprite_of_cycle = 0
         self.total_cycle = 0
@@ -35,14 +33,16 @@ class SpriteManager:
         self.sprite_group = displayio.Group(scale=2)
 
         # Add the first sprite into the Group.
-        self.sprite_group.append(self.sprites[FIRST].sprite)
+        self.sprite_group.append(self.sprites[FIRST_SPRITE].sprite)
 
         # Set group sprite location (in the middle of screen).
         self.center_x = (display_width / 2 - 1)
         self.center_y = (display_height / 2 - 1)
 
-        self.sprite_group.x = int((self.center_x - self.sprites[FIRST].sprite.width / 2) - (self.sprites[FIRST].sprite.width / 2))
-        self.sprite_group.y = int((self.center_x - self.sprites[FIRST].sprite.height / 2) - (self.sprites[FIRST].sprite.height / 2))
+        self.sprite_group.x = int(
+            (self.center_x - self.sprites[FIRST_SPRITE].width / 2) - (self.sprites[FIRST_SPRITE].width / 2))
+        self.sprite_group.y = int(
+            (self.center_x - self.sprites[FIRST_SPRITE].height / 2) - (self.sprites[FIRST_SPRITE].height / 2))
 
     def run(self, now):
         self.last_blink_time = now
@@ -56,16 +56,16 @@ class SpriteManager:
 
             # If it's equal the CYCLE_PER_SPRITE it's time to change the animation!!!
             if self.total_cycle == CYCLE_PER_SPRITE:
-                print("TROCOU")
                 self.total_cycle = 0
                 self.current_frame_running_sprite = 0
 
+                # Pops the last sprite appended into that group.
                 self.sprite_group.pop()
 
                 # Randomize the next sprite index that will be appended into the sprite group.
                 self.index_current_running_sprite = random.randint(
                     0, len(self.sprites) - 1)
-                current.sprite = self.sprites[self.index_current_running_sprite].sprite
+                current = self.sprites[self.index_current_running_sprite]
                 current.sprite.x = self.position_x_animated
 
                 self.sprite_group.append(current.sprite)
@@ -88,13 +88,7 @@ class SpriteManager:
                     self.current_sprite_going_backwards = False
                     current.flip_x = False
 
-        print(current.type)
-        print(self.current_frame_running_sprite % current.total_frames)
-        print(self.current_frame_running_sprite)
-        
         current.sprite.x = self.position_x_animated
         current.sprite.flip_x = self.current_sprite_going_backwards
         current.sprite[0] = self.current_frame_running_sprite % current.total_frames
         self.current_frame_running_sprite = self.current_frame_running_sprite + 1
-        
-        
