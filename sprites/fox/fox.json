@@ -1,0 +1,54 @@
+{
+    "exploreScreen": true,
+    "tileSet": {
+        "visible": false,
+        "path": "/sprites/sonic/tile-set.bmp",
+        "width": 38,
+        "height": 38,
+        "scene": [
+            [
+                "9;9;9;9;9;5;5",
+                "0;0;9;9;9;6;6",
+                "1;1;9;9;9;5;5",
+                "9;0;9;9;9;6;6",
+                "9;1;9;9;9;5;5",
+                "9;9;0;9;9;6;6",
+                "9;9;1;9;9;6;6"
+            ]
+        ]
+    },
+    "animations": [
+        {
+            "type": "walk",
+            "path": "/sprites/fox/walk.bmp",
+            "width": 78,
+            "height": 64,
+            "total_frames": 11,
+            "velocity": 0
+        },
+        {
+            "type": "crouch",
+            "path": "/sprites/fox/crouch.bmp",
+            "width": 78,
+            "height": 64,
+            "total_frames": 9,
+            "velocity": 0
+        },
+        {
+            "type": "run",
+            "path": "/sprites/fox/run.bmp",
+            "width": 78,
+            "height": 64,
+            "total_frames": 7,
+            "velocity": 0
+        },
+        {
+            "type": "standing",
+            "path": "/sprites/fox/standing.bmp",
+            "width": 78,
+            "height": 64,
+            "total_frames": 7,
+            "velocity": 0
+        }
+    ]
+}
