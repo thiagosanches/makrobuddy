@@ -1,65 +1,102 @@
-[
-    {
-        "animation": "down",
-        "path": "/sprites/dog/dog_down.bmp",
-        "width": 32,
-        "height": 32,
-        "total_frames": 4
+{
+    "exploreScreen": true,
+    "tileSet": {
+        "visible": true,
+        "path": "/sprites/dog/tile-set.bmp",
+        "width": 16,
+        "height": 16,
+        "scene": [
+            [
+                "0;1;1;1;1;1;1;1;1;1;1;1;1;1;1",
+                "1;0;1;1;1;3;3;3;3;1;1;1;1;1;1",
+                "1;1;1;1;1;3;2;3;3;3;1;1;1;1;1",
+                "1;1;2;0;1;3;2;3;2;3;2;1;1;1;1",
+                "1;2;2;0;0;3;2;2;2;2;3;3;1;1;1",
+                "1;2;2;0;0;0;2;3;3;3;3;2;5;5;5",
+                "1;2;0;2;2;0;0;2;3;3;3;5;5;5;0",
+                "1;2;0;0;2;2;2;0;3;5;5;5;5;5;5",
+                "1;2;0;0;2;2;0;2;2;5;5;5;5;5;3",
+                "1;2;0;0;0;0;0;2;2;5;5;5;5;3;3",
+                "1;2;0;0;0;0;2;2;2;5;5;5;3;3;3",
+                "1;2;0;0;0;0;2;2;2;3;3;3;3;3;3",
+                "1;2;3;3;0;0;2;2;2;3;3;3;3;3;3",
+                "1;2;2;3;3;0;2;2;2;3;3;3;3;3;3",
+                "1;2;2;3;3;0;2;2;2;3;3;3;3;3;3"
+            ]
+        ]
     },
-    {
-        "animation": "happy",
-        "path": "/sprites/dog/dog_happy.bmp",
-        "width": 32,
-        "height": 32,
-        "total_frames": 7
-    },
-    {
-        "animation": "left",
-        "path": "/sprites/dog/dog_left.bmp",
-        "width": 32,
-        "height": 32,
-        "total_frames": 4
-    },
-    {
-        "animation": "right",
-        "path": "/sprites/dog/dog_right.bmp",
-        "width": 32,
-        "height": 32,
-        "total_frames": 4
-    },
-    {
-        "animation": "running",
-        "path": "/sprites/dog/dog_running.bmp",
-        "width": 32,
-        "height": 32,
-        "total_frames": 4
-    },
-    {
-        "animation": "sad",
-        "path": "/sprites/dog/dog_sad.bmp",
-        "width": 32,
-        "height": 32,
-        "total_frames": 1
-    },
-    {
-        "animation": "sitting",
-        "path": "/sprites/dog/dog_sitting.bmp",
-        "width": 32,
-        "height": 32,
-        "total_frames": 4
-    },
-    {
-        "animation": "sleeping",
-        "path": "/sprites/dog/dog_sleeping.bmp",
-        "width": 32,
-        "height": 32,
-        "total_frames": 2
-    },
-    {
-        "animation": "up",
-        "path": "/sprites/dog/dog_up.bmp",
-        "width": 32,
-        "height": 32,
-        "total_frames": 4
-    }
-]
+    "animations": [
+        {
+            "type": "down",
+            "path": "/sprites/dog/dog_down.bmp",
+            "width": 32,
+            "height": 32,
+            "total_frames": 4,
+            "velocity": 3
+        },
+        {
+            "type": "happy",
+            "path": "/sprites/dog/dog_happy.bmp",
+            "width": 32,
+            "height": 32,
+            "total_frames": 7,
+            "velocity": 3
+        },
+        {
+            "type": "left",
+            "path": "/sprites/dog/dog_left.bmp",
+            "width": 32,
+            "height": 32,
+            "total_frames": 4,
+            "velocity": 3
+        },
+        {
+            "type": "right",
+            "path": "/sprites/dog/dog_right.bmp",
+            "width": 32,
+            "height": 32,
+            "total_frames": 4,
+            "velocity": 3
+        },
+        {
+            "type": "running",
+            "path": "/sprites/dog/dog_running.bmp",
+            "width": 32,
+            "height": 32,
+            "total_frames": 4,
+            "velocity": 10
+        },
+        {
+            "type": "sad",
+            "path": "/sprites/dog/dog_sad.bmp",
+            "width": 32,
+            "height": 32,
+            "total_frames": 1,
+            "velocity": 0
+        },
+        {
+            "type": "sitting",
+            "path": "/sprites/dog/dog_sitting.bmp",
+            "width": 32,
+            "height": 32,
+            "total_frames": 4,
+            "velocity": 0
+        },
+        {
+            "type": "sleeping",
+            "path": "/sprites/dog/dog_sleeping.bmp",
+            "width": 32,
+            "height": 32,
+            "total_frames": 2,
+            "velocity": 0
+        },
+        {
+            "type": "up",
+            "path": "/sprites/dog/dog_up.bmp",
+            "width": 32,
+            "height": 32,
+            "total_frames": 4,
+            "velocity": 3
+        }
+    ]
+}

@@ -1,9 +1,9 @@
 {
     "exploreScreen": true,
-    "scene": {
+    "tileSet": {
         "path": "/sprites/sonic/scene.bmp",
-        "width": 240,
-        "height": 240
+        "width": 16,
+        "height": 16
     },
     "animations": [
         {

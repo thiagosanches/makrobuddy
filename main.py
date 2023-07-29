@@ -76,8 +76,8 @@ display.GC9A01.show(text_manager.group)
 display.GC9A01.refresh()
 time.sleep(0.5)
 
-sprite_manager = SpriteManager("sonic", display.width, display.height)
-display.GC9A01.show(sprite_manager.sprite_group)
+sprite_manager = SpriteManager("dog", display.width, display.height)
+display.GC9A01.show(sprite_manager.main_group)
 display.GC9A01.refresh()
 
 while True:
@@ -97,7 +97,7 @@ while True:
     # important messages should stay like 30 seconds on the screen!
     if (event_manager.last_time_read + event_manager.ttl) <= now:
         event_manager.showing_message = False
-        display.GC9A01.show(sprite_manager.sprite_group)
+        display.GC9A01.show(sprite_manager.main_group)
         display.GC9A01.refresh()
 
     position = encoder.position

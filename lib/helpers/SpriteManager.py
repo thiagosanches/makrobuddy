@@ -1,11 +1,22 @@
 import displayio
 import json
 import random
+
 from makrobuddy.Sprite import Sprite
+from makrobuddy.Tile import Tile
 
 FIRST_SPRITE = 0
 CYCLE_PER_SPRITE = 4
 SCREEN_LIMIT = 24
+
+EXPLORE_SCREEN_JSON_FIELD = "exploreScreen"
+ANIMATIONS_JSON_FIELD = "animations"
+TILE_SET_JSON_FIELD = "tileSet"
+PATH_JSON_FIELD = "path"
+WIDTH_JSON_FIELD = "width"
+HEIGHT_JSON_FIELD = "height"
+VISIBLE_JSON_FIELD = "visible"
+SCENE_JSON_FIELD = "scene"
 
 
 class SpriteManager:
@@ -20,12 +31,32 @@ class SpriteManager:
         self.blink_off_duration = 0.1
         self.index_current_running_sprite = 0
         self.position_x_animated = -1
+        self.main_group = displayio.Group()
+        self.tile_group = None
 
         with open(f"/sprites/{character}/{character}.json", "r") as read_file:
             data = json.load(read_file)
-            self.explore_screen = data["exploreScreen"]
+            self.explore_screen = data[EXPLORE_SCREEN_JSON_FIELD]
 
-            for index, item in enumerate(data["animations"]):
+            is_tile_visible = data[TILE_SET_JSON_FIELD][VISIBLE_JSON_FIELD]
+            if is_tile_visible:
+                scene = data[TILE_SET_JSON_FIELD][SCENE_JSON_FIELD]
+                tile_width = data[TILE_SET_JSON_FIELD][WIDTH_JSON_FIELD]
+                tile_height = data[TILE_SET_JSON_FIELD][HEIGHT_JSON_FIELD]
+
+                self.tile_set = Tile(data[TILE_SET_JSON_FIELD][PATH_JSON_FIELD],
+                                     int(display_width / tile_width),
+                                     int(display_height / tile_height),
+                                     tile_width,
+                                     tile_height,
+                                     scene)
+
+                # Create a Group that holds the tile set (to create the 'scenario/scenes').
+                self.tile_group = displayio.Group()
+                self.tile_group.append(self.tile_set.tile)
+                self.main_group.append(self.tile_group)
+
+            for index, item in enumerate(data[ANIMATIONS_JSON_FIELD]):
                 self.sprites[index] = Sprite(
                     item["path"], item["width"], item["height"], item["total_frames"], item["type"], item["velocity"])
 
@@ -43,6 +74,8 @@ class SpriteManager:
             (self.center_x - self.sprites[FIRST_SPRITE].width / 2) - (self.sprites[FIRST_SPRITE].width / 2))
         self.sprite_group.y = int(
             (self.center_x - self.sprites[FIRST_SPRITE].height / 2) - (self.sprites[FIRST_SPRITE].height / 2))
+
+        self.main_group.append(self.sprite_group)
 
     def run(self, now):
         self.last_blink_time = now
