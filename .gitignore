@@ -167,3 +167,4 @@ rp2040-emulator/fat12.img
 rp2040-emulator/fat12/
 rp2040-emulator/img/
 .vscode/
+*.min
