@@ -1,6 +1,7 @@
 import displayio
 import json
 import random
+import math
 
 from makrobuddy.Sprite import Sprite
 from makrobuddy.Tile import Tile
@@ -48,8 +49,8 @@ class SpriteManager:
                 tile_height = data[TILE_SET_JSON_FIELD][HEIGHT_JSON_FIELD]
 
                 self.tile_set = Tile(data[TILE_SET_JSON_FIELD][PATH_JSON_FIELD],
-                                     int(display_width / tile_width),
-                                     int(display_height / tile_height),
+                                     math.ceil(display_width / tile_width),
+                                     math.ceil(display_height / tile_height),
                                      tile_width,
                                      tile_height,
                                      scene)
