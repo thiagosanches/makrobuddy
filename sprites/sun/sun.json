@@ -1,37 +1,61 @@
-[
-    {
-        "animation": "happy",
-        "path": "/sprites/sun/sun-sprite-happy.bmp",
-        "width": 48,
-        "height": 48,
-        "total_frames": 5
+{
+    "exploreScreen": false,
+    "tileSet": {
+        "visible": true,
+        "path": "/sprites/sun/tile-set.bmp",
+        "width": 38,
+        "height": 38,
+        "scene": [
+            [
+                "0;0;0;0;0;0",
+                "0;0;0;0;0;0",
+                "0;0;0;0;0;0",
+                "0;0;0;0;0;0",
+                "0;0;0;0;0;0",
+                "0;0;0;0;0;0"
+            ]
+        ]
     },
-    {
-        "animation": "angry",
-        "path": "/sprites/sun/sun-sprite-angry.bmp",
-        "width": 48,
-        "height": 48,
-        "total_frames": 7
-    },
-    {
-        "animation": "angry2",
-        "path": "/sprites/sun/sun-sprite-angry2.bmp",
-        "width": 48,
-        "height": 48,
-        "total_frames": 6
-    },
-    {
-        "animation": "angry3",
-        "path": "/sprites/sun/sun-sprite-angry3.bmp",
-        "width": 48,
-        "height": 48,
-        "total_frames": 6
-    },
-    {
-        "animation": "joy",
-        "path": "/sprites/sun/sun-sprite-joy.bmp",
-        "width": 48,
-        "height": 48,
-        "total_frames": 8
-    }
-]
+    "animations": [
+        {
+            "type": "happy",
+            "path": "/sprites/sun/sun-sprite-happy.bmp",
+            "width": 48,
+            "height": 48,
+            "total_frames": 5,
+            "velocity": 3
+        },
+        {
+            "type": "angry",
+            "path": "/sprites/sun/sun-sprite-angry.bmp",
+            "width": 48,
+            "height": 48,
+            "total_frames": 7,
+            "velocity": 10
+        },
+        {
+            "type": "angry2",
+            "path": "/sprites/sun/sun-sprite-angry2.bmp",
+            "width": 48,
+            "height": 48,
+            "total_frames": 6,
+            "velocity": 10
+        },
+        {
+            "type": "angry3",
+            "path": "/sprites/sun/sun-sprite-angry3.bmp",
+            "width": 48,
+            "height": 48,
+            "total_frames": 6,
+            "velocity": 10
+        },
+        {
+            "type": "joy",
+            "path": "/sprites/sun/sun-sprite-joy.bmp",
+            "width": 48,
+            "height": 48,
+            "total_frames": 8,
+            "velocity": 3
+        }
+    ]
+}
