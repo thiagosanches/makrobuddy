@@ -7,10 +7,10 @@ import rotaryio
 import digitalio
 import supervisor
 
-from makrobuddy.helpers.TextManager import TextManager
-from makrobuddy.helpers.SpriteManager import SpriteManager
-from makrobuddy.helpers.Display import Display
-from makrobuddy.helpers.EventManager import EventManager
+from lib.makrobuddy.helpers.TextManager import TextManager
+from lib.makrobuddy.helpers.SpriteManager import SpriteManager
+from lib.makrobuddy.helpers.Display import Display
+from lib.makrobuddy.helpers.EventManager import EventManager
 
 from digitalio import DigitalInOut, Direction, Pull
 from adafruit_hid.keyboard import Keyboard
