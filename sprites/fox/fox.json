@@ -31,7 +31,7 @@
             "path": "/sprites/fox/crouch.bmp",
             "width": 78,
             "height": 64,
-            "total_frames": 9,
+            "total_frames": 8,
             "velocity": 0
         },
         {
