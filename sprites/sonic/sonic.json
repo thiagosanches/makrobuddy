@@ -1,9 +1,21 @@
 {
     "exploreScreen": true,
     "tileSet": {
-        "path": "/sprites/sonic/scene.bmp",
-        "width": 16,
-        "height": 16
+        "visible": true,
+        "path": "/sprites/sonic/tile-set.bmp",
+        "width": 32,
+        "height": 32,
+        "scene": [
+            [
+                "0;1;1;1;1;1;1",
+                "1;0;1;1;1;3;3",
+                "1;1;1;1;1;3;2",
+                "1;1;2;0;1;3;2",
+                "1;2;2;0;0;3;2",
+                "1;2;2;0;0;0;2",
+                "1;2;0;2;2;0;0"
+            ]
+        ]
     },
     "animations": [
         {
