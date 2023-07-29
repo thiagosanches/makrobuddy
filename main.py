@@ -18,15 +18,14 @@ from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control import ConsumerControl
 from adafruit_hid.consumer_control_code import ConsumerControlCode
 
+print(os.uname().machine)
+
 # Release any resources currently in use for the displays
 displayio.release_displays()
 time.sleep(0.5)
 
 # Disable auto_reload
 supervisor.disable_autoreload()
-
-print("---Pico Pad Keyboard---")
-print(os.uname().machine)
 
 button = digitalio.DigitalInOut(board.GP22)
 button.direction = digitalio.Direction.INPUT
@@ -67,40 +66,33 @@ for i in range(len(pins)):
 
 switch_state = [0, 0, 0, 0, 0]
 
+event_manager = EventManager()
 display = Display()
 display.GC9A01.auto_refresh = False
-event_manager = EventManager()
 
 text_manager = TextManager(display.width, display.height)
 text_manager.set_text("MakroBuddy 1.0")
 display.GC9A01.show(text_manager.group)
 display.GC9A01.refresh()
-time.sleep(2)
+time.sleep(0.5)
 
 sprite_manager = SpriteManager("sonic", display.width, display.height)
 display.GC9A01.show(sprite_manager.sprite_group)
 display.GC9A01.refresh()
-time.sleep(5)
 
 while True:
     now = time.monotonic()
 
     # display some art if there is no important message!
-    if not event_manager.showing_message and now >= sprite_manager.last_blink_time  + sprite_manager.blink_off_duration:
+    if not event_manager.showing_message and now >= sprite_manager.last_blink_time + sprite_manager.blink_off_duration:
         sprite_manager.run(now)
         display.GC9A01.refresh()
 
-    if now >= (event_manager.last_time_read + event_manager.period_check) and not event_manager.showing_message:
-        event = event_manager.get()
-        if event != None:
-            if event["uuid"] != event_manager.uuid:
-                event_manager.uuid = event["uuid"]
-                event_manager.showing_message = True
-                event_manager.last_time_read = now
-
-                text_manager.set_text(event["message"])
-                display.GC9A01.show(text_manager.group)
-                display.GC9A01.refresh()
+    message = event_manager.run(now)
+    if message != None:
+        text_manager.set_text(message)
+        display.GC9A01.show(text_manager.group)
+        display.GC9A01.refresh()
 
     # important messages should stay like 30 seconds on the screen!
     if (event_manager.last_time_read + event_manager.ttl) <= now:
