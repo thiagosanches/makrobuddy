@@ -37,7 +37,7 @@ class SpriteManager:
         self.main_group = displayio.Group()
         self.tile_group = None
 
-        with open(f"/sprites/{character}/{character}.json", "r") as read_file:
+        with open(f"/sprites/{character}/{character}.json.min", "r") as read_file:
             data = json.load(read_file)
             self.explore_screen = data[EXPLORE_SCREEN_JSON_FIELD]
 
