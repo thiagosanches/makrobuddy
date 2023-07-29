@@ -1,6 +1,5 @@
 import time
 import board
-import displayio
 import os
 import usb_hid
 import rotaryio
@@ -19,9 +18,6 @@ from adafruit_hid.consumer_control import ConsumerControl
 from adafruit_hid.consumer_control_code import ConsumerControlCode
 
 print(os.uname().machine)
-
-# Release any resources currently in use for the displays
-displayio.release_displays()
 time.sleep(0.5)
 
 # Disable auto_reload

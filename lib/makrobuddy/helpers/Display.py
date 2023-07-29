@@ -6,6 +6,9 @@ import displayio
 
 class Display:
     def __init__(self):
+        # Release any resources currently in use for the displays.
+        displayio.release_displays()
+
         self.width = 240
         self.height = 240
 
