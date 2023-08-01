@@ -72,7 +72,16 @@ display.GC9A01.show(text_manager.group)
 display.GC9A01.refresh()
 time.sleep(0.5)
 
-sprite_manager = SpriteManager("turtle-sea", display.width, display.height)
+character = "dog"
+available_character = os.listdir("/sprites")
+while button.value == True:
+    character = available_character[encoder.position %
+                                    len(available_character)]
+    text_manager.set_text(character)
+    display.GC9A01.refresh()
+    time.sleep(0.01)
+
+sprite_manager = SpriteManager(character, display.width, display.height)
 display.GC9A01.show(sprite_manager.main_group)
 display.GC9A01.refresh()
 
