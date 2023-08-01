@@ -23,10 +23,10 @@ time.sleep(0.5)
 # Disable auto_reload
 supervisor.disable_autoreload()
 
-button = digitalio.DigitalInOut(board.GP22)
-button.direction = digitalio.Direction.INPUT
-button.pull = digitalio.Pull.UP
-button_state = None
+encoder_button = digitalio.DigitalInOut(board.GP22)
+encoder_button.direction = digitalio.Direction.INPUT
+encoder_button.pull = digitalio.Pull.UP
+encoder_button_state = None
 
 encoder = rotaryio.IncrementalEncoder(board.GP20, board.GP21)
 last_position = encoder.position
@@ -119,12 +119,11 @@ while True:
     last_position = current_position
 
     # Why button is not working?
-    # if not button.value and button_state is None:
-    #    button_state = "pressed"
-    # if button.value and button_state == "pressed":
-    #    print("Button pressed.")
-    #    cc.send(ConsumerControlCode.PLAY_PAUSE)
-    #    button_state = None
+    if not encoder_button.value and encoder_button_state is None:
+       encoder_button_state = "pressed"
+    if encoder_button.value and encoder_button_state == "pressed":
+       cc.send(ConsumerControlCode.PLAY_PAUSE)
+       encoder_button_state = None
 
     for button in range(len(pins)):
         if switch_state[button] == 0:
