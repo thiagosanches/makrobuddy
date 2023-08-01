@@ -118,7 +118,6 @@ while True:
         print(current_position)
     last_position = current_position
 
-    # Why button is not working?
     if not encoder_button.value and encoder_button_state is None:
        encoder_button_state = "pressed"
     if encoder_button.value and encoder_button_state == "pressed":
