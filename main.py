@@ -74,7 +74,7 @@ time.sleep(0.5)
 
 character = "dog"
 available_character = os.listdir("/sprites")
-while button.value == True:
+while encoder_button.value == True:
     character = available_character[encoder.position %
                                     len(available_character)]
     text_manager.set_text(character)
