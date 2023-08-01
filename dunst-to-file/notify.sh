@@ -5,7 +5,7 @@ summary="$2"
 body="$3"
 icon="$4"
 urgency="$5"
-CIRCUITPYTHON_VOLUME="/media/$USERNAME/CIRCUITPY"
+CIRCUITPYTHON_VOLUME="/media/$USER/CIRCUITPY"
 
 if [[ -d $CIRCUITPYTHON_VOLUME ]]
 then
