@@ -119,10 +119,10 @@ while True:
     last_position = current_position
 
     if not encoder_button.value and encoder_button_state is None:
-       encoder_button_state = "pressed"
+        encoder_button_state = "pressed"
     if encoder_button.value and encoder_button_state == "pressed":
-       cc.send(ConsumerControlCode.PLAY_PAUSE)
-       encoder_button_state = None
+        cc.send(ConsumerControlCode.PLAY_PAUSE)
+        encoder_button_state = None
 
     for button in range(len(pins)):
         if switch_state[button] == 0:
