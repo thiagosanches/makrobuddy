@@ -6,6 +6,7 @@ UUID = "uuid"
 MESSAGE = "message"
 DATE = "date"
 
+
 class EventManager:
     def __init__(self):
         self.uuid = ''
@@ -14,7 +15,6 @@ class EventManager:
         self.ttl = 30
         self.period_check = 60
         self.rtc = rtc.RTC()
-        self.time = None
 
     def get(self):
         try:
@@ -42,10 +42,9 @@ class EventManager:
                     self.showing_message = True
                     self.last_time_read = now
                     event_message = event[MESSAGE]
-
-                    if self.time == None:
-                        print("[EventManager] I'm going to set the internal clock based on the first event received!")
-                        self.rtc.datetime = self.sync_clock(event[DATE])
-                        print("[EventManager] " + str(self.rtc.datetime))
+                    print(
+                        "[EventManager] I'm going to sync the 'clock' based on recent event received!")
+                    self.rtc.datetime = self.sync_clock(event[DATE])
+                    print("[EventManager] " + str(self.rtc.datetime))
 
         return event_message
