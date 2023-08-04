@@ -12,5 +12,6 @@ then
     jq --null-input \
         --arg uuid "$(uuidgen)" \
         --arg message "$summary" \
-        '{"uuid": $uuid, "message": $message}' > "$CIRCUITPYTHON_VOLUME/event.json"
+        --arg date "$(date "+%Y-%m-%d %H:%M:%S")" \
+        '{"uuid": $uuid, "date": $date, "message": $message}' > "$CIRCUITPYTHON_VOLUME/event.json"
 fi
