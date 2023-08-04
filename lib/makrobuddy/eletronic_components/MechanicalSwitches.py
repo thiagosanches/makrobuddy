@@ -1,16 +1,9 @@
-import time
 import board
-import os
 import usb_hid
-import rotaryio
-import digitalio
-import supervisor
 
 from digitalio import DigitalInOut, Direction, Pull
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
-from adafruit_hid.consumer_control import ConsumerControl
-from adafruit_hid.consumer_control_code import ConsumerControlCode
 
 KEY = 2
 
