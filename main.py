@@ -10,6 +10,8 @@ from lib.makrobuddy.helpers.TextManager import TextManager
 from lib.makrobuddy.helpers.SpriteManager import SpriteManager
 from lib.makrobuddy.helpers.Display import Display
 from lib.makrobuddy.helpers.EventManager import EventManager
+from lib.makrobuddy.eletronic_components.RotaryEncoder import RotaryEncoder
+
 
 from digitalio import DigitalInOut, Direction, Pull
 from adafruit_hid.keyboard import Keyboard
@@ -23,16 +25,8 @@ time.sleep(0.5)
 # Disable auto_reload
 supervisor.disable_autoreload()
 
-encoder_button = digitalio.DigitalInOut(board.GP22)
-encoder_button.direction = digitalio.Direction.INPUT
-encoder_button.pull = digitalio.Pull.UP
-encoder_button_state = None
 
-encoder = rotaryio.IncrementalEncoder(board.GP20, board.GP21)
-last_position = encoder.position
-
-kbd = Keyboard(usb_hid.devices)
-cc = ConsumerControl(usb_hid.devices)
+rotary_encoder = RotaryEncoder()
 
 # list of pins to use (skipping GP15 on Pico because it's funky)
 pins = (
@@ -74,8 +68,8 @@ time.sleep(0.5)
 
 character = "dog"
 available_character = os.listdir("/sprites")
-while encoder_button.value == True:
-    character = available_character[encoder.position %
+while rotary_encoder.button.value == True:
+    character = available_character[rotary_encoder.encoder.position %
                                     len(available_character)]
     text_manager.set_text(character)
     display.GC9A01.refresh()
@@ -105,24 +99,7 @@ while True:
         display.GC9A01.show(sprite_manager.main_group)
         display.GC9A01.refresh()
 
-    position = encoder.position
-    current_position = encoder.position
-    position_change = current_position - last_position
-    if position_change > 0:
-        for _ in range(position_change):
-            cc.send(ConsumerControlCode.VOLUME_INCREMENT)
-        print(current_position)
-    elif position_change < 0:
-        for _ in range(-position_change):
-            cc.send(ConsumerControlCode.VOLUME_DECREMENT)
-        print(current_position)
-    last_position = current_position
-
-    if not encoder_button.value and encoder_button_state is None:
-        encoder_button_state = "pressed"
-    if encoder_button.value and encoder_button_state == "pressed":
-        cc.send(ConsumerControlCode.PLAY_PAUSE)
-        encoder_button_state = None
+    rotary_encoder.on_tick()
 
     for button in range(len(pins)):
         if switch_state[button] == 0:
