@@ -19,13 +19,11 @@ rotary_encoder = RotaryEncoder()
 mechanical_switches = MechanicalSwitches()
 event_manager = EventManager()
 display = Display()
-
 text_manager = TextManager(display.width, display.height)
 text_manager.set_text("MakroBuddy 1.0")
+
 display.GC9A01.show(text_manager.group)
 display.GC9A01.refresh()
-
-time.sleep(0.5)
 
 character = "dog"
 available_character = os.listdir("/sprites")
