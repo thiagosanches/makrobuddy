@@ -1,4 +1,4 @@
-# MakroBuddy
+# MakroBuddy [![Pylint](https://github.com/thiagosanches/makrobuddy/actions/workflows/pylint.yml/badge.svg)](https://github.com/thiagosanches/makrobuddy/actions/workflows/pylint.yml)
 
 This Git repository provides step-by-step instructions and code samples for building your own MakroBuddy using the Raspberry Pi Pico microcontroller board. A macropad is a programmable keypad with customizable buttons that can be used to automate tasks, streamline workflows, or enhance productivity.
 
