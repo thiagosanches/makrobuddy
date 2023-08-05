@@ -99,7 +99,7 @@ while True:
         display.GC9A01.show(sprite_manager.main_group)
         display.GC9A01.refresh()
 
-    rotary_encoder.on_tick()
+    rotary_encoder.run()
 
     for button in range(len(pins)):
         if switch_state[button] == 0:
