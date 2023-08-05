@@ -32,7 +32,6 @@ while rotary_encoder.button.value == True:
                                     len(available_character)]
     text_manager.set_text("Choose your char: " + character)
     display.GC9A01.refresh()
-    time.sleep(0.01)
 
 sprite_manager = SpriteManager(character, display.width, display.height)
 display.GC9A01.show(sprite_manager.main_group)
