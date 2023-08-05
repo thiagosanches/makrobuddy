@@ -28,3 +28,4 @@ class Display:
             spi, command=tft_dc, chip_select=tft_cs, reset=tft_rst)
         self.GC9A01 = gc9a01.GC9A01(
             display_bus, width=self.width, height=self.height, backlight_pin=tft_bl)
+        self.GC9A01.auto_refresh = False

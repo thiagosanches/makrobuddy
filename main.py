@@ -26,46 +26,16 @@ time.sleep(0.5)
 # Disable auto_reload
 supervisor.disable_autoreload()
 
-
 rotary_encoder = RotaryEncoder()
 mechanical_switches = MechanicalSwitches()
-
-# list of pins to use (skipping GP15 on Pico because it's funky)
-pins = (
-    board.GP0,
-    board.GP1,
-    board.GP3,
-    board.GP4,
-    board.GP5,
-)
-
-MEDIA = 1
-KEY = 2
-keymap = {
-    (0): (KEY, [Keycode.HOME]),
-    (1): (KEY, [Keycode.UP_ARROW]),
-    (2): (KEY, [Keycode.LEFT_ARROW]),
-    (3): (KEY, [Keycode.DOWN_ARROW]),
-    (4): (KEY, [Keycode.RIGHT_ARROW]),
-}
-
-switches = []
-for i in range(len(pins)):
-    switch = DigitalInOut(pins[i])
-    switch.direction = Direction.INPUT
-    switch.pull = Pull.UP
-    switches.append(switch)
-
-switch_state = [0, 0, 0, 0, 0]
-
 event_manager = EventManager()
 display = Display()
-display.GC9A01.auto_refresh = False
 
 text_manager = TextManager(display.width, display.height)
 text_manager.set_text("MakroBuddy 1.0")
 display.GC9A01.show(text_manager.group)
 display.GC9A01.refresh()
+
 time.sleep(0.5)
 
 character = "dog"
@@ -103,28 +73,6 @@ while True:
 
     rotary_encoder.run()
     mechanical_switches.run()
-
-    for button in range(len(pins)):
-        if switch_state[button] == 0:
-            if not switches[button].value:
-                try:
-                    if keymap[button][0] == KEY:
-                        kbd.press(*keymap[button][1])
-                    else:
-                        cc.send(keymap[button][1])
-                except ValueError:  # deals w six key limit
-                    pass
-                switch_state[button] = 1
-
-        if switch_state[button] == 1:
-            if switches[button].value:
-                try:
-                    if keymap[button][0] == KEY:
-                        kbd.release(*keymap[button][1])
-
-                except ValueError:
-                    pass
-                switch_state[button] = 0
 
     # debounce
     time.sleep(0.01)
