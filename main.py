@@ -11,6 +11,7 @@ from lib.makrobuddy.helpers.SpriteManager import SpriteManager
 from lib.makrobuddy.helpers.Display import Display
 from lib.makrobuddy.helpers.EventManager import EventManager
 from lib.makrobuddy.eletronic_components.RotaryEncoder import RotaryEncoder
+from lib.makrobuddy.eletronic_components.MechanicalSwitches import MechanicalSwitches
 
 
 from digitalio import DigitalInOut, Direction, Pull
@@ -27,6 +28,7 @@ supervisor.disable_autoreload()
 
 
 rotary_encoder = RotaryEncoder()
+mechanical_switches = MechanicalSwitches()
 
 # list of pins to use (skipping GP15 on Pico because it's funky)
 pins = (
@@ -100,6 +102,7 @@ while True:
         display.GC9A01.refresh()
 
     rotary_encoder.run()
+    mechanical_switches.run()
 
     for button in range(len(pins)):
         if switch_state[button] == 0:
