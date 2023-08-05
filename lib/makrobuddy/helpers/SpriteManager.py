@@ -3,8 +3,8 @@ import json
 import random
 import math
 
-from makrobuddy.Sprite import Sprite
-from makrobuddy.Tile import Tile
+from lib.makrobuddy.Sprite import Sprite
+from lib.makrobuddy.Tile import Tile
 
 FIRST_SPRITE = 0
 CYCLE_PER_SPRITE = 4
