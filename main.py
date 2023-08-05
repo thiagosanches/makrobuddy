@@ -1,9 +1,5 @@
 import time
-import board
 import os
-import usb_hid
-import rotaryio
-import digitalio
 import supervisor
 
 from lib.makrobuddy.helpers.TextManager import TextManager
@@ -12,13 +8,6 @@ from lib.makrobuddy.helpers.Display import Display
 from lib.makrobuddy.helpers.EventManager import EventManager
 from lib.makrobuddy.eletronic_components.RotaryEncoder import RotaryEncoder
 from lib.makrobuddy.eletronic_components.MechanicalSwitches import MechanicalSwitches
-
-
-from digitalio import DigitalInOut, Direction, Pull
-from adafruit_hid.keyboard import Keyboard
-from adafruit_hid.keycode import Keycode
-from adafruit_hid.consumer_control import ConsumerControl
-from adafruit_hid.consumer_control_code import ConsumerControlCode
 
 print(os.uname().machine)
 time.sleep(0.5)
