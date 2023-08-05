@@ -13,7 +13,8 @@ For this project I'm using a board from [Waveshare](https://www.waveshare.com/rp
 
 When no important messages are present, the screen showcases a delightful random sprite animation, fully configurable to your liking. If you want to know more click [here](./ADD_MORE_SPRITES.md).
 
-![](20230727_171019.gif)
+See the full video above:
+[![Final video of fixing issues in your code in VS Code](https://img.youtube.com/vi/jeDKUlj0tqM/maxresdefault.jpg)](https://www.youtube.com/shorts/jeDKUlj0tqM)
 
 
 ## How it gets the notifications/events?
