@@ -30,7 +30,7 @@ available_character = os.listdir("/sprites")
 while rotary_encoder.button.value == True:
     character = available_character[rotary_encoder.encoder.position %
                                     len(available_character)]
-    text_manager.set_text(character)
+    text_manager.set_text("Choose your char: " + character)
     display.GC9A01.refresh()
     time.sleep(0.01)
 
