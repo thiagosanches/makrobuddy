@@ -5,6 +5,9 @@ This Git repository provides step-by-step instructions and code samples for buil
 ### Why it's called MakroBuddy?
 Besides offering convenient hot-keys, MakroBuddy can also serve as a helpful **reminder** for important events displayed on your screen. Moreover, it brings captivating animated sprites that will be your delightful companions throughout the day ❤️.
 
+<img width="826" height="680" alt="image" src="https://github.com/user-attachments/assets/8bd4ce87-2d9d-4ca7-b2fe-b508059111c5" />
+
+
 ![Alt text](image.png)
 
 For this project I'm using a board from [Waveshare](https://www.waveshare.com/rp2040-lcd-1.28.htm) (RP2040 MCU Board, With 1.28inch Round LCD). It uses a raspberry pi pico (rp2040) as its microcontroler, so it's possible to build a HID (Human Interface Device). In this repository, you'll discover a convenient housing specifically designed for this project. It includes designated spots for the Waveshare board, rotary encoder, and mechanical switches, ensuring a clean and organized assembly.
